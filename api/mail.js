@@ -1,4 +1,25 @@
 import { createTransport } from 'nodemailer';
+import Cors from "cors";
+
+// Inicializa el middleware de CORS
+// Inicializa el middleware de CORS
+const cors = Cors({
+  methods: ["POST", "OPTIONS"],
+  origin: "*", // Permite todos los orígenes
+});
+
+function runMiddleware(req, res, fn) {
+    console.log("middleware");
+    return new Promise((resolve, reject) => {
+      fn(req, res, (result) => {
+        if (result instanceof Error) {
+          return reject(result);
+        }
+        return resolve(result);
+      });
+    });
+  }
+
 
 // Configurar el transporte SMTP de Nodemailer
 const transporter = createTransport({
@@ -10,6 +31,7 @@ const transporter = createTransport({
 });
 
 export default async (req, res) => {
+    await runMiddleware(req, res, cors);
     if (req.method === 'POST') {
         const { to, subject, message } = req.body;
 
