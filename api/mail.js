@@ -1,5 +1,5 @@
 import { createTransport } from 'nodemailer';
-import Cors from "cors";
+import Cors from 'cors';
 
 // Inicializa el middleware de CORS
 // Inicializa el middleware de CORS
